@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOTUS — Dealer Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C; --gold-light: #E2C47A; --gold-dark: #8B6914;
+    --charcoal: #111111; --charcoal-mid: #1A1A1A; --charcoal-light: #222222;
+    --silver: #A0A0A0; --white: #F5F0E8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--charcoal); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; cursor: none; }
+
+  /* CURSOR */
+  .cursor { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; transform: translate(-50%, -50%); }
+  .cursor-ring { width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.3s ease; transform: translate(-50%, -50%); opacity: 0.6; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); animation: fadeDown 1s ease 0.2s both; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.3em; color: var(--gold); text-decoration: none; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--silver); text-decoration: none; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.3s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s ease; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+  /* BACK BTN */
+  .back-btn { position: fixed; top: 6.5rem; left: 4rem; z-index: 101; display: inline-flex; align-items: center; gap: 0.8rem; padding: 0.85rem 1.2rem; border: 1px solid rgba(201,168,76,0.22); background: rgba(10,10,10,0.72); backdrop-filter: blur(10px); color: var(--gold); text-decoration: none; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; transition: border-color 0.3s, background 0.3s, transform 0.3s; }
+  .back-btn:hover { border-color: rgba(201,168,76,0.5); background: rgba(18,18,18,0.95); transform: translateY(-2px); }
+  .back-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* PAGE HEADER */
+  .page-header { padding: 16rem 4rem 7rem; max-width: 1400px; margin: 0 auto; position: relative; }
+  .page-header-glow { position: absolute; width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%); top: 50%; left: 0; transform: translateY(-50%); pointer-events: none; }
+  .page-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; font-style: italic; color: var(--gold); letter-spacing: 0.5em; text-transform: uppercase; margin-bottom: 1.2rem; opacity: 0.85; display: flex; align-items: center; gap: 1rem; }
+  .page-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--gold); opacity: 0.5; }
+  .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 10vw, 8rem); letter-spacing: 0.08em; line-height: 0.9; color: transparent; background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-light) 40%, var(--gold) 60%, var(--gold-dark) 100%); -webkit-background-clip: text; background-clip: text; margin-bottom: 2rem; }
+  .page-divider { width: 60px; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin-bottom: 2rem; }
+  .page-desc { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; color: var(--silver); letter-spacing: 0.05em; max-width: 560px; line-height: 1.9; }
+
+  /* TICKER */
+  .ticker-bar { background: var(--gold); padding: 1.2rem; overflow: hidden; }
+  .ticker { display: flex; white-space: nowrap; animation: ticker 22s linear infinite; gap: 4rem; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker span { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0.3em; color: var(--charcoal); }
+  .ticker .dot { color: rgba(0,0,0,0.3); margin: 0 1rem; }
+
+  /* SECTION DIVIDER */
+  .section-divider { display: flex; align-items: center; gap: 1.5rem; padding: 0 4rem; max-width: 1400px; margin: 0 auto; }
+  .section-divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent); }
+  .section-divider-diamond { color: var(--gold); font-size: 0.6rem; opacity: 0.6; }
+
+  /* STATS STRIP */
+  .stats-strip { padding: 5rem 4rem; max-width: 1400px; margin: 0 auto; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.1); }
+  .stat-item { background: var(--charcoal-mid); padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden; transition: background 0.3s; }
+  .stat-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); transform: scaleX(0); transition: transform 0.4s ease; }
+  .stat-item:hover::before { transform: scaleX(1); }
+  .stat-item:hover { background: var(--charcoal-light); }
+  .stat-number { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 0.05em; color: transparent; background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); -webkit-background-clip: text; background-clip: text; line-height: 1; margin-bottom: 0.6rem; }
+  .stat-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--silver); opacity: 0.7; }
+
+  /* DEALER BENEFITS */
+  .benefits-section { padding: 2rem 4rem 6rem; max-width: 1400px; margin: 0 auto; }
+  .section-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--gold); opacity: 0.5; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 3rem; }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .benefit-card { background: var(--charcoal-mid); border: 1px solid rgba(201,168,76,0.1); padding: 2.4rem 2rem; position: relative; overflow: hidden; transition: border-color 0.3s, transform 0.3s; }
+  .benefit-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); transform: scaleX(0); transition: transform 0.4s ease; }
+  .benefit-card:hover::before { transform: scaleX(1); }
+  .benefit-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); }
+  .benefit-icon { width: 44px; height: 44px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 1.6rem; transition: border-color 0.3s; }
+  .benefit-card:hover .benefit-icon { border-color: var(--gold); }
+  .benefit-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .benefit-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 0.8rem; font-weight: 400; }
+  .benefit-body { font-size: 0.76rem; font-weight: 300; line-height: 2; color: var(--silver); }
+
+  /* WHATSAPP CTA */
+  .wa-strip { background: var(--charcoal-mid); border-top: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); padding: 4rem; text-align: center; }
+  .wa-eyebrow { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); opacity: 0.7; margin-bottom: 1rem; }
+  .wa-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; color: var(--white); margin-bottom: 0.6rem; }
+  .wa-title em { font-style: italic; color: var(--gold); }
+  .wa-sub { font-size: 0.78rem; font-weight: 300; color: var(--silver); letter-spacing: 0.05em; margin-bottom: 2.5rem; line-height: 1.9; }
+  .wa-btn { display: inline-flex; align-items: center; gap: 0.9rem; background: var(--gold); color: var(--charcoal); text-decoration: none; padding: 1.1rem 3rem; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; transition: background 0.3s, transform 0.2s; }
+  .wa-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .wa-btn svg { width: 18px; height: 18px; fill: var(--charcoal); flex-shrink: 0; }
+
+  /* APPLICATION FORM */
+  .form-section { padding: 6rem 4rem; max-width: 1400px; margin: 0 auto; }
+  .form-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .form-left-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 1.5rem; }
+  .form-left-title em { font-style: italic; color: var(--gold); }
+  .form-left-body { font-size: 0.82rem; font-weight: 300; line-height: 2; color: var(--silver); }
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-field label { font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); opacity: 0.7; }
+  .form-field input, .form-field select, .form-field textarea { background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.15); color: var(--white); padding: 0.85rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 300; letter-spacing: 0.05em; outline: none; transition: border-color 0.3s; resize: none; }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: rgba(201,168,76,0.5); }
+  .form-field select option { background: var(--charcoal-mid); }
+  .btn-submit { background: var(--gold); color: var(--charcoal); border: none; padding: 1rem 3rem; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; cursor: none; transition: background 0.3s, transform 0.2s; align-self: flex-start; }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* TESTIMONIAL */
+  .testimonial-strip { padding: 5rem 4rem; max-width: 800px; margin: 0 auto; text-align: center; }
+  .testimonial-divider { width: 40px; height: 1px; background: rgba(201,168,76,0.4); margin: 0 auto 2.5rem; }
+  .testimonial-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-style: italic; font-weight: 300; color: var(--white); line-height: 1.7; letter-spacing: 0.03em; margin-bottom: 2rem; opacity: 0.9; }
+  .testimonial-author { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); opacity: 0.7; }
+
+  /* FOOTER */
+  footer { background: #0A0A0A; padding: 4rem; border-top: 1px solid rgba(201,168,76,0.08); }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--silver); margin-bottom: 1.5rem; opacity: 0.6; }
+  .footer-desc { font-size: 0.75rem; font-weight: 300; line-height: 1.9; color: var(--silver); opacity: 0.6; }
+  .footer-col-title { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0.8; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.8rem; }
+  .footer-links a { color: var(--silver); text-decoration: none; font-size: 0.75rem; font-weight: 300; opacity: 0.6; transition: opacity 0.3s, color 0.3s; letter-spacing: 0.05em; }
+  .footer-links a:hover { opacity: 1; color: var(--gold); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: var(--silver); opacity: 0.4; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="../lotus-homepage.html" class="nav-logo">LOT<span>US</span></a>
+  <ul class="nav-links">
+    <li><a href="../lotus-homepage.html">Home</a></li>
+    <li><a href="../products.html">Products</a></li>
+    <li><a href="../lotus-heritage.html">Heritage</a></li>
+    <li><a href="../support.html" class="active">Support</a></li>
+  </ul>
+</nav>
+
+<a href="../support.html" class="back-btn">
+  <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+  <span>Back to Support</span>
+</a>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-glow"></div>
+  <p class="page-eyebrow">Support · Dealer Programme</p>
+  <h1 class="page-title">Dealer<br>Support</h1>
+  <div class="page-divider"></div>
+  <p class="page-desc">Join a network of authorised LOTUS dealers trusted by garment manufacturers and tailoring studios across the globe. Built on seven decades of precision engineering.</p>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker">
+    <span>Wholesale Pricing</span><span class="dot">◆</span>
+    <span>75 Years of Heritage</span><span class="dot">◆</span>
+    <span>Global Dealer Network</span><span class="dot">◆</span>
+    <span>Technical Training</span><span class="dot">◆</span>
+    <span>Marketing Support</span><span class="dot">◆</span>
+    <span>Wholesale Pricing</span><span class="dot">◆</span>
+    <span>75 Years of Heritage</span><span class="dot">◆</span>
+    <span>Global Dealer Network</span><span class="dot">◆</span>
+    <span>Technical Training</span><span class="dot">◆</span>
+    <span>Marketing Support</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- SECTION DIVIDER -->
+<div class="section-divider" style="padding-top: 5rem;">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-diamond">◆</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<!-- STATS -->
+<section class="stats-strip reveal">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">1947</div>
+      <div class="stat-label">Established</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">75+</div>
+      <div class="stat-label">Years of Manufacturing</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">50+</div>
+      <div class="stat-label">Countries Served</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Model Lines</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION DIVIDER -->
+<div class="section-divider reveal">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-diamond">◆</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<!-- DEALER BENEFITS -->
+<section class="benefits-section">
+  <div class="reveal">
+    <p class="section-label">Why Partner With Us</p>
+    <h2 class="section-title">What every authorised<br><em>dealer receives.</em></h2>
+  </div>
+
+  <div class="benefits-grid">
+    <div class="benefit-card reveal">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <h3 class="benefit-title">Wholesale Pricing & Margins</h3>
+      <p class="benefit-body">Access competitive wholesale pricing on all LOTUS models with clear, structured margins. Volume-based tiers available for established dealers with strong order history.</p>
+    </div>
+
+    <div class="benefit-card reveal">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <h3 class="benefit-title">Marketing Materials & Assets</h3>
+      <p class="benefit-body">Receive ready-to-use catalogues, product photography, specification sheets, and co-branded materials for your showroom and digital channels — at no additional cost.</p>
+    </div>
+
+    <div class="benefit-card reveal">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.77a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <h3 class="benefit-title">Dedicated Dealer Support Line</h3>
+      <p class="benefit-body">A direct line to our dealer relations team for stock queries, order tracking, and escalated technical support. Priority response for registered commercial partners.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION DIVIDER -->
+<div class="section-divider reveal">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-diamond">◆</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<!-- TESTIMONIAL -->
+<div class="testimonial-strip reveal">
+  <div class="testimonial-divider"></div>
+  <p class="testimonial-quote">"Partnering with LOTUS has been one of the strongest decisions we made for our business. The machines sell themselves — the brand does the work."</p>
+  <p class="testimonial-author">Authorised Dealer · Ludhiana, India</p>
+</div>
+
+<!-- SECTION DIVIDER -->
+<div class="section-divider reveal">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-diamond">◆</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<!-- WHATSAPP CTA -->
+<div class="wa-strip reveal">
+  <p class="wa-eyebrow">Get in Touch</p>
+  <h2 class="wa-title">Ready to become a<br><em>LOTUS dealer?</em></h2>
+  <p class="wa-sub">Chat with our dealer relations team directly on WhatsApp.<br>We typically respond within a few hours on business days.</p>
+  <a href="https://wa.me/919870323028?text=Hi%2C%20I%27m%20interested%20in%20becoming%20an%20authorised%20LOTUS%20dealer." class="wa-btn" target="_blank">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Chat on WhatsApp
+  </a>
+</div>
+
+<!-- APPLICATION FORM -->
+<div class="form-section">
+  <div class="form-inner">
+    <div class="reveal">
+      <p class="section-label">Apply Now</p>
+      <h2 class="form-left-title">Send us your<br><em>application.</em></h2>
+      <p class="form-left-body">Prefer to fill in a form? Share a few details and our dealer relations team will reach out within one business day to discuss next steps.</p>
+    </div>
+
+    <div class="reveal">
+      <form class="contact-form" id="dealerForm">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Business Name</label>
+            <input type="text" id="bizName" placeholder="Your shop or company" required>
+          </div>
+          <div class="form-field">
+            <label>Contact Name</label>
+            <input type="text" id="contactName" placeholder="Your name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Phone (WhatsApp)</label>
+            <input type="tel" id="dealerPhone" placeholder="+91 98703 23028" required>
+          </div>
+          <div class="form-field">
+            <label>City</label>
+            <input type="text" id="dealerCity" placeholder="Your city" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>What do you currently sell?</label>
+          <select id="currentSell">
+            <option value="">Select an option</option>
+            <option>Sewing machines (other brands)</option>
+            <option>Industrial equipment</option>
+            <option>Garment machinery</option>
+            <option>Textile supplies</option>
+            <option>Other / New to this category</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Anything else to share?</label>
+          <textarea rows="3" id="dealerMessage" placeholder="Tell us about your business, location, or customer base..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send Application via WhatsApp</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION DIVIDER -->
+<div class="section-divider reveal">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-diamond">◆</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">LOTUS</div>
+      <div class="footer-tagline">Heritage Engineered. Globes Precision.</div>
+      <p class="footer-desc">A legacy of precision sewing machine manufacturing since 1947 — now reborn for a new generation of makers, designers and manufacturers worldwide.</p>
+    </div>
+    <div>
+      <p class="footer-col-title"></p>
+      <ul class="footer-links">
+        <li><a href="../support.html">Spare Parts</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Company</p>
+      <ul class="footer-links">
+        <li><a href="../lotus-heritage.html">Heritage</a></li>
+        <li><a href="../support.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Support</p>
+      <ul class="footer-links">
+        <li><a href="service-repair.html">Service Centers</a></li>
+        <li><a href="technical-help.html">Technical Help</a></li>
+        <li><a href="dealer-support.html">Dealer Programme</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <strong>LOTUS</strong> Sewing Machines. All rights reserved.</p>
+    <p>Est. <strong>1947</strong> · Heritage Engineered · Globes Precision</p>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+  (function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ cursor.style.transform='translate(-50%,-50%) scale(2)'; ring.style.transform='translate(-50%,-50%) scale(1.5)'; ring.style.opacity='1'; });
+    el.addEventListener('mouseleave',()=>{ cursor.style.transform='translate(-50%,-50%) scale(1)'; ring.style.transform='translate(-50%,-50%) scale(1)'; ring.style.opacity='0.6'; });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Nav scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 80){ nav.style.background='rgba(10,10,10,0.97)'; nav.style.borderBottom='1px solid rgba(201,168,76,0.15)'; nav.style.backdropFilter='blur(10px)'; }
+    else{ nav.style.background='linear-gradient(to bottom,rgba(0,0,0,0.9),transparent)'; nav.style.borderBottom='none'; nav.style.backdropFilter='none'; }
+  });
+
+  // Dealer application form → WhatsApp
+  document.getElementById('dealerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const biz = document.getElementById('bizName').value.trim();
+    const name = document.getElementById('contactName').value.trim();
+    const phone = document.getElementById('dealerPhone').value.trim();
+    const city = document.getElementById('dealerCity').value.trim();
+    const sells = document.getElementById('currentSell').value || 'Not specified';
+    const msg = document.getElementById('dealerMessage').value.trim();
+    const text = `*LOTUS Dealer Application*\n\nBusiness: ${biz}\nContact: ${name}\nPhone: ${phone}\nCity: ${city}\nCurrently sells: ${sells}\n\n${msg ? 'Additional info:\n' + msg : ''}`;
+    window.open(`https://wa.me/917760911234?text=${encodeURIComponent(text)}`, '_blank');
+  });
+</script>
+</body>
+</html>

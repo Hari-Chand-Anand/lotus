@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOTUS — Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C; --gold-light: #E2C47A; --gold-dark: #8B6914;
+    --charcoal: #111111; --charcoal-mid: #1A1A1A; --charcoal-light: #222222;
+    --silver: #A0A0A0; --white: #F5F0E8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--charcoal); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; cursor: none; }
+
+  .cursor { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; transform: translate(-50%, -50%); }
+  .cursor-ring { width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.3s ease; transform: translate(-50%, -50%); opacity: 0.6; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); animation: fadeDown 1s ease 0.2s both; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.3em; color: var(--gold); text-decoration: none; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--silver); text-decoration: none; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.3s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s ease; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* HERO */
+  .hero { height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .hero-glow { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); animation: pulse 5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.6} 50%{transform:translate(-50%,-50%) scale(1.2);opacity:1} }
+  .hero-content { position: relative; z-index: 2; text-align: center; animation: heroReveal 1.2s cubic-bezier(0.22,1,0.36,1) 0.4s both; }
+  @keyframes heroReveal { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  .hero-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; color: var(--gold); letter-spacing: 0.5em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.9; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 12vw, 9rem); letter-spacing: 0.12em; line-height: 0.9; color: transparent; background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-light) 40%, var(--gold) 60%, var(--gold-dark) 100%); -webkit-background-clip: text; background-clip: text; margin-bottom: 1rem; }
+  .hero-divider { width: 60px; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 0 auto 1.5rem; }
+  .hero-desc { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; color: var(--silver); letter-spacing: 0.08em; max-width: 420px; line-height: 1.8; }
+
+  /* TICKER */
+  .ticker-bar { background: var(--gold); padding: 1.2rem; overflow: hidden; }
+  .ticker { display: flex; white-space: nowrap; animation: ticker 20s linear infinite; gap: 4rem; }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .ticker span { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0.3em; color: var(--charcoal); }
+  .ticker .dot { color: rgba(0,0,0,0.3); margin: 0 1rem; }
+
+  /* SUPPORT GRID */
+  .support-section { padding: 7rem 4rem; max-width: 1400px; margin: 0 auto; }
+  .section-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--gold); opacity: 0.5; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 4rem; }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  .support-card { background: var(--charcoal-mid); border: 1px solid rgba(201,168,76,0.1); padding: 2.8rem 2.2rem; position: relative; overflow: hidden; transition: border-color 0.3s, transform 0.3s; text-decoration: none; display: block; }
+  .support-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); transform: scaleX(0); transition: transform 0.4s ease; }
+  .support-card:hover::before { transform: scaleX(1); }
+  .support-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); }
+
+  .card-icon { width: 48px; height: 48px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 1.8rem; }
+  .card-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.15); line-height: 1; margin-bottom: 1rem; }
+  .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--white); margin-bottom: 0.8rem; font-weight: 400; }
+  .card-body { font-size: 0.76rem; font-weight: 300; line-height: 2; color: var(--silver); letter-spacing: 0.02em; margin-bottom: 1.5rem; }
+  .card-link { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: gap 0.3s; }
+  .card-link:hover { gap: 1rem; }
+
+  /* CONTACT STRIP */
+  .contact-strip { background: var(--charcoal-mid); border-top: 1px solid rgba(201,168,76,0.1); border-bottom: 1px solid rgba(201,168,76,0.1); padding: 5rem 4rem; }
+  .contact-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .contact-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 1.5rem; }
+  .contact-title em { font-style: italic; color: var(--gold); }
+  .contact-body { font-size: 0.82rem; font-weight: 300; line-height: 2; color: var(--silver); margin-bottom: 2.5rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-field label { font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); opacity: 0.7; }
+  .form-field input, .form-field select, .form-field textarea {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.15); color: var(--white);
+    padding: 0.85rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 300;
+    letter-spacing: 0.05em; outline: none; transition: border-color 0.3s; resize: none;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: rgba(201,168,76,0.5); }
+  .form-field select option { background: var(--charcoal-mid); }
+  .btn-submit { background: var(--gold); color: var(--charcoal); border: none; padding: 1rem 3rem; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; cursor: none; transition: background 0.3s, transform 0.2s; align-self: flex-start; }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* FAQ */
+  .faq-section { padding: 7rem 4rem; max-width: 1000px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid rgba(201,168,76,0.1); }
+  .faq-q { width: 100%; background: none; border: none; color: var(--white); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; text-align: left; padding: 1.8rem 0; cursor: none; display: flex; justify-content: space-between; align-items: center; letter-spacing: 0.03em; transition: color 0.3s; }
+  .faq-q:hover { color: var(--gold); }
+  .faq-icon { font-size: 1.2rem; color: var(--gold); transition: transform 0.4s ease; flex-shrink: 0; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.3s ease; }
+  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.8rem; }
+  .faq-a p { font-size: 0.8rem; font-weight: 300; line-height: 2; color: var(--silver); }
+
+  /* FOOTER */
+  footer { background: #0A0A0A; padding: 4rem; border-top: 1px solid rgba(201,168,76,0.08); }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--silver); margin-bottom: 1.5rem; opacity: 0.6; }
+  .footer-desc { font-size: 0.75rem; font-weight: 300; line-height: 1.9; color: var(--silver); opacity: 0.6; }
+  .footer-col-title { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0.8; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.8rem; }
+  .footer-links a { color: var(--silver); text-decoration: none; font-size: 0.75rem; font-weight: 300; opacity: 0.6; transition: opacity 0.3s, color 0.3s; letter-spacing: 0.05em; }
+  .footer-links a:hover { opacity: 1; color: var(--gold); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: var(--silver); opacity: 0.4; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="lotus-homepage.html" class="nav-logo">LOT<span>US</span></a>
+  <ul class="nav-links">
+    <li><a href="lotus-homepage.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="lotus-heritage.html">Heritage</a></li>
+    <li><a href="support.html" class="active">Support</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">We're Here to Help</p>
+    <h1 class="hero-title">Support</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">Expert guidance and certified service — for every LOTUS machine, everywhere.</p>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker">
+    <span>Technical Support</span><span class="dot">◆</span>
+    <span>Certified Service</span><span class="dot">◆</span>
+    <span>Global Dealer Network</span><span class="dot">◆</span>
+    <span>Service &amp; Repair</span><span class="dot">◆</span>
+    <span>Technical Support</span><span class="dot">◆</span>
+    <span>Certified Service</span><span class="dot">◆</span>
+    <span>Global Dealer Network</span><span class="dot">◆</span>
+    <span>Service &amp; Repair</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- SUPPORT CARDS -->
+<section class="support-section">
+  <div class="reveal">
+    <p class="section-label">How Can We Help</p>
+    <h2 class="section-title">Everything your<br><em>machine needs.</em></h2>
+  </div>
+
+  <div class="support-grid reveal">
+    <div class="support-card">
+      <div class="card-num">01</div>
+      <div class="card-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2">
+          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+        </svg>
+      </div>
+      <h3 class="card-title">Service & Repair</h3>
+      <p class="card-body">Locate your nearest LOTUS certified service centre. Our technicians are factory-trained and carry genuine LOTUS parts for every model in our range.</p>
+      <a href="service-repair.html" class="card-link">Find a Service Centre →</a>
+    </div>
+
+    <div class="support-card">
+      <div class="card-num">03</div>
+      <div class="card-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2">
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <h3 class="card-title">Technical Help</h3>
+      <p class="card-body">Our technical support team can diagnose issues, advise on maintenance schedules, and guide you through setup and calibration for any LOTUS model.</p>
+      <a href="technical-help.html" class="card-link">Get Technical Help →</a>
+    </div>
+
+    <div class="support-card">
+      <div class="card-num">02</div>
+      <div class="card-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+      </div>
+      <h3 class="card-title">Dealer Support</h3>
+      <p class="card-body">Are you a LOTUS authorised dealer? Access exclusive dealer resources, training schedules, marketing materials, and wholesale order support.</p>
+      <a href="dealer-support.html" class="card-link">Dealer Portal →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<div class="contact-strip">
+  <div class="contact-inner">
+    <div class="reveal">
+      <p class="section-label">Direct Contact</p>
+      <h2 class="contact-title">Speak to our<br><em>support team.</em></h2>
+      <p class="contact-body">Our team of trained specialists is available Monday to Friday, 9am–6pm. We typically respond to all enquiries within one business day.</p>
+      <p class="contact-body">For urgent technical issues on industrial machines, a dedicated priority line is available to registered commercial customers.</p>
+    </div>
+
+    <div class="reveal">
+      <form class="contact-form" id="whatsappEnquiryForm">
+        <div class="form-row">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" id="firstName" placeholder="Your first name" required>
+          </div>
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" id="lastName" placeholder="Your last name">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Phone Number</label>
+            <input type="tel" id="phoneNumber" placeholder="Your phone number" required>
+          </div>
+          <div class="form-field">
+            <label>Email Address</label>
+            <input type="email" id="emailAddress" placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Machine Model</label>
+          <select id="machineModel">
+            <option value="">Select your model</option>
+            <option>LOTUS Pro 9000 (Industrial)</option>
+            <option>LOTUS Classic 350 (Home)</option>
+            <option>LOTUS Atelier (Fashion)</option>
+            <option>Legacy / Older Model</option>
+            <option>Other / Not Sure</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>How Can We Help?</label>
+          <textarea rows="4" id="helpMessage" placeholder="Describe your issue or enquiry..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send on WhatsApp</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="reveal" style="text-align:center; margin-bottom: 4rem;">
+    <p class="section-label" style="justify-content:center;">Common Questions</p>
+    <h2 class="section-title" style="text-align:center;">Frequently <em>Asked</em></h2>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q">How do I find the model number of my LOTUS machine? <span class="faq-icon">+</span></button>
+    <div class="faq-a"><p>The model number is located on a metal plate affixed to the base or rear of your machine. It begins with "LOTUS" followed by a series number. You will need this when contacting our support or service team.</p></div>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q">How often should I service my LOTUS machine? <span class="faq-icon">+</span></button>
+    <div class="faq-a"><p>For LOTUS machines, we recommend a professional service every 12–18 months or every 1 million stitches, whichever comes first.</p></div>
+  </div>
+
+  <div class="faq-item reveal">
+    <button class="faq-q">How do I become an authorised LOTUS dealer? <span class="faq-icon">+</span></button>
+    <div class="faq-a"><p>We welcome applications from established sewing machine retailers and industrial equipment suppliers worldwide. Please use the contact form above selecting "Dealer Enquiry" or visit our dealer programme page for full application details and requirements.</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">LOTUS</div>
+      <div class="footer-tagline">Heritage Engineered. Globes Precision.</div>
+      <p class="footer-desc">A legacy of precision sewing machine manufacturing since 1947 — now reborn for a new generation of makers, designers and manufacturers worldwide.</p>
+    </div>
+    <div>
+      <p class="footer-col-title"></p>
+      <ul class="footer-links">
+        
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Company</p>
+      <ul class="footer-links">
+        <li><a href="lotus-heritage.html">Heritage</a></li>
+        
+        <li><a href="support.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Support</p>
+      <ul class="footer-links">
+        
+        <li><a href="support.html">Service Centers</a></li>
+        
+        <li><a href="support.html">B2B Inquiries</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <strong>LOTUS</strong> Sewing Machines. All rights reserved.</p>
+    <p>Est. <strong>1947</strong> · Heritage Engineered · Globes Precision</p>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+  (function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ cursor.style.transform='translate(-50%,-50%) scale(2)'; ring.style.transform='translate(-50%,-50%) scale(1.5)'; ring.style.opacity='1'; });
+    el.addEventListener('mouseleave',()=>{ cursor.style.transform='translate(-50%,-50%) scale(1)'; ring.style.transform='translate(-50%,-50%) scale(1)'; ring.style.opacity='0.6'; });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 80){ nav.style.background='rgba(10,10,10,0.97)'; nav.style.borderBottom='1px solid rgba(201,168,76,0.15)'; nav.style.backdropFilter='blur(10px)'; }
+    else{ nav.style.background='linear-gradient(to bottom,rgba(0,0,0,0.9),transparent)'; nav.style.borderBottom='none'; nav.style.backdropFilter='none'; }
+  });
+
+
+  const whatsappForm = document.getElementById('whatsappEnquiryForm');
+  if (whatsappForm) {
+    whatsappForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const companyWhatsApp = '919870323028'; // Replace with your company WhatsApp number in international format
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
+      const emailAddress = document.getElementById('emailAddress').value.trim();
+      const machineModel = document.getElementById('machineModel').value.trim();
+      const helpMessage = document.getElementById('helpMessage').value.trim();
+
+      const fullName = [firstName, lastName].filter(Boolean).join(' ');
+      const message = `New LOTUS Support Enquiry%0A%0A` +
+        `Name: ${fullName || '-'}%0A` +
+        `Phone: ${phoneNumber || '-'}%0A` +
+        `Email: ${emailAddress || '-'}%0A` +
+        `Machine Model: ${machineModel || '-'}%0A` +
+        `Enquiry: ${helpMessage || '-'}`;
+
+      const whatsappUrl = `https://wa.me/${companyWhatsApp}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    });
+  }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOTUS — Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E2C47A;
+    --gold-dark: #8B6914;
+    --charcoal: #111111;
+    --charcoal-mid: #1A1A1A;
+    --charcoal-light: #222222;
+    --silver: #A0A0A0;
+    --white: #F5F0E8;
+    --off-white: #EDE8DE;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CURSOR ── */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, background 0.2s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    background: rgba(10,10,10,0.97);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    backdrop-filter: blur(10px);
+    animation: fadeDown 1s ease 0.2s both;
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--white); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--silver);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease !important;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--charcoal) !important; }
+  .nav-cta::after { display: none !important; }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    height: 55vh; min-height: 400px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding-top: 80px;
+  }
+
+  .page-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4; pointer-events: none; z-index: 1;
+  }
+
+  .hero-bg-word {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 20vw, 18rem);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.06);
+    letter-spacing: 0.05em;
+    user-select: none; pointer-events: none;
+    z-index: 1;
+    animation: bgWordDrift 12s ease-in-out infinite alternate;
+  }
+  @keyframes bgWordDrift {
+    from { transform: translateX(-2%) translateY(0); }
+    to   { transform: translateX(2%) translateY(-10px); }
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(201,168,76,0.09) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 5s ease-in-out infinite;
+    z-index: 1;
+  }
+  @keyframes pulse {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+    50%      { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+  }
+
+  .hero-diag {
+    position: absolute; inset: 0;
+    overflow: hidden; z-index: 1; pointer-events: none;
+  }
+  .hero-diag::before, .hero-diag::after {
+    content: '';
+    position: absolute;
+    width: 1px; height: 60%;
+    background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.25), transparent);
+  }
+  .hero-diag::before { left: 12%; top: 20%; transform: rotate(12deg); animation: linePulse 3s ease-in-out infinite; }
+  .hero-diag::after  { right: 12%; top: 20%; transform: rotate(-12deg); animation: linePulse 3s ease-in-out infinite 1.5s; }
+  @keyframes linePulse {
+    0%,100% { opacity: 0.4; }
+    50%      { opacity: 1; }
+  }
+
+  .page-hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    animation: heroReveal 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s both;
+  }
+  @keyframes heroReveal {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-hero-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; font-style: italic;
+    color: var(--gold); letter-spacing: 0.5em;
+    text-transform: uppercase; margin-bottom: 1rem;
+    opacity: 0.9;
+  }
+
+  .page-hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 13vw, 10rem);
+    letter-spacing: 0.12em; text-indent: 0.12em; line-height: 0.9;
+    color: transparent;
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-light) 40%, var(--gold) 60%, var(--gold-dark) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    margin-bottom: 0.5rem;
+    animation: shimmer 4s linear infinite;
+    background-size: 200% auto;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .page-hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 300; font-style: italic;
+    color: var(--silver); letter-spacing: 0.2em;
+  }
+
+  /* ── TICKER BANNER ── */
+  .revival-banner {
+    background: var(--gold); padding: 1rem;
+    overflow: hidden; position: relative;
+  }
+  .revival-ticker {
+    display: flex; white-space: nowrap;
+    animation: ticker 22s linear infinite; gap: 4rem;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .revival-ticker span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem; letter-spacing: 0.3em; color: var(--charcoal);
+  }
+  .revival-ticker .dot { color: rgba(0,0,0,0.3); margin: 0 1rem; }
+
+  /* ── FILTER BAR ── */
+  .filter-section {
+    padding: 3rem 4rem 2rem;
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .filter-tabs {
+    display: flex; gap: 0; border: 1px solid rgba(201,168,76,0.2);
+  }
+  .filter-tab {
+    padding: 0.7rem 1.8rem;
+    background: transparent;
+    border: none; border-right: 1px solid rgba(201,168,76,0.2);
+    color: var(--silver);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    cursor: none; transition: all 0.3s ease;
+    position: relative; overflow: hidden;
+  }
+  .filter-tab:last-child { border-right: none; }
+  .filter-tab::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    z-index: 0;
+  }
+  .filter-tab span { position: relative; z-index: 1; }
+  .filter-tab:hover { color: var(--charcoal); }
+  .filter-tab:hover::before { transform: scaleX(1); }
+  .filter-tab.active { background: var(--gold); color: var(--charcoal); }
+
+  .product-count {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; font-style: italic;
+    color: var(--silver); letter-spacing: 0.1em;
+  }
+  .product-count strong { color: var(--gold); font-style: normal; }
+
+  /* ── FEATURED PRODUCT (Hero Card) ── */
+  .featured-product {
+    max-width: 1400px; margin: 0 auto 2px;
+    padding: 0 4rem;
+  }
+
+  .featured-card {
+    background: var(--charcoal-mid);
+    border: 1px solid rgba(201,168,76,0.15);
+    display: grid; grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    position: relative;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  }
+  .featured-card.visible { opacity: 1; transform: translateY(0); }
+
+  .featured-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .featured-visual {
+    position: relative; background: var(--charcoal-light);
+    min-height: 520px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .featured-visual-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.12) 0%, transparent 60%),
+      linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+  }
+
+  .featured-badge {
+    position: absolute; top: 2rem; left: 2rem;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    animation: badgePulse 2s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+    50%      { box-shadow: 0 0 0 8px rgba(201,168,76,0); }
+  }
+
+  .machine-svg-wrap {
+    position: relative; z-index: 2;
+    width: 320px; height: 320px;
+    animation: floatMachine 4s ease-in-out infinite;
+  }
+  @keyframes floatMachine {
+    0%,100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-14px) rotate(2deg); }
+  }
+
+  .featured-info {
+    padding: 4rem; display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+
+  .featured-series-tag {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .featured-series-tag::before {
+    content: '';
+    width: 30px; height: 1px; background: var(--gold);
+  }
+
+  .featured-model {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    letter-spacing: 0.08em; line-height: 0.9;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+
+  .featured-model-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 300; font-style: italic;
+    color: var(--gold); margin-bottom: 2rem;
+  }
+
+  .featured-desc {
+    font-size: 0.82rem; line-height: 2;
+    color: var(--silver); font-weight: 300;
+    margin-bottom: 2.5rem; max-width: 400px;
+  }
+
+  .spec-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; margin-bottom: 2.5rem;
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding-top: 2rem;
+  }
+
+  .spec-label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--silver); margin-bottom: 0.3rem;
+  }
+  .spec-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.05em; color: var(--gold);
+  }
+
+  .featured-actions {
+    display: flex; gap: 1rem; align-items: center;
+  }
+
+  .btn-primary-gold {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    transition: all 0.3s ease;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary-gold::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold-light);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  .btn-primary-gold:hover::after { transform: translateX(0); }
+  .btn-primary-gold span { position: relative; z-index: 1; }
+
+  .btn-outline-gold {
+    display: inline-block;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+  }
+  .btn-outline-gold:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  /* ── PRODUCTS GRID ── */
+  .products-section {
+    padding: 4rem 4rem 8rem;
+    max-width: 1400px; margin: 0 auto;
+    position: relative;
+  }
+
+  .section-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+  .section-eyebrow {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+  }
+  .section-title-lg {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 300;
+    color: var(--white); line-height: 1.1;
+  }
+  .section-title-lg em { font-style: italic; color: var(--gold); }
+
+  .grid-3 {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  /* ── PRODUCT CARD ── */
+  .prod-card {
+    background: var(--charcoal-mid);
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    cursor: none;
+  }
+  .prod-card.visible { opacity: 1; transform: translateY(0); }
+  .prod-card:nth-child(2).visible { transition-delay: 0.1s; }
+  .prod-card:nth-child(3).visible { transition-delay: 0.2s; }
+  .prod-card:nth-child(4).visible { transition-delay: 0.05s; }
+  .prod-card:nth-child(5).visible { transition-delay: 0.15s; }
+  .prod-card:nth-child(6).visible { transition-delay: 0.25s; }
+
+  .prod-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    border: 1px solid rgba(201,168,76,0);
+    transition: border-color 0.4s ease;
+    z-index: 3; pointer-events: none;
+  }
+  .prod-card:hover::before { border-color: rgba(201,168,76,0.4); }
+
+  .prod-card-visual {
+    height: 280px; position: relative; overflow: hidden;
+    background: var(--charcoal-light);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .prod-card-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .prod-card:hover .prod-card-bg { transform: scale(1.05); }
+
+  .prod-machine-svg {
+    position: relative; z-index: 2;
+    transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .prod-card:hover .prod-machine-svg { transform: scale(1.1) translateY(-8px); }
+
+  .prod-card-overlay {
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(to top, var(--charcoal-mid) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .prod-card-tag {
+    position: absolute; top: 1.2rem; left: 1.2rem; z-index: 4;
+    font-size: 0.55rem; font-weight: 700; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 0.3rem 0.8rem;
+    background: rgba(17,17,17,0.8); backdrop-filter: blur(4px);
+  }
+
+  .prod-card-new {
+    position: absolute; top: 1.2rem; right: 1.2rem; z-index: 4;
+    font-size: 0.55rem; font-weight: 700; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--charcoal);
+    background: var(--gold);
+    padding: 0.3rem 0.8rem;
+  }
+
+  .prod-card-body {
+    padding: 1.8rem 2rem;
+  }
+
+  .prod-card-model {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.06em;
+    color: var(--white); line-height: 1; margin-bottom: 0.3rem;
+    transition: color 0.3s ease;
+  }
+  .prod-card:hover .prod-card-model { color: var(--gold); }
+
+  .prod-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; font-style: italic; font-weight: 300;
+    color: var(--silver); margin-bottom: 1.2rem;
+  }
+
+  .prod-card-specs {
+    display: flex; gap: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1.2rem; margin-bottom: 1.5rem;
+  }
+  .prod-spec-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; color: var(--gold); line-height: 1;
+  }
+  .prod-spec-lbl {
+    font-size: 0.55rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--silver); margin-top: 0.2rem;
+  }
+
+  .prod-card-action {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .prod-card-link {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: gap 0.3s ease, color 0.3s ease;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    cursor: none;
+  }
+  .prod-card-link:hover { gap: 0.9rem; }
+  .prod-card-link .arrow {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+  .prod-card-link:hover .arrow { transform: translateX(4px); }
+
+  .prod-card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem; font-style: italic;
+    color: var(--silver); letter-spacing: 0.05em;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 5rem 4rem;
+    max-width: 1400px; margin: 0 auto;
+    opacity: 0; transform: scaleX(0.8);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .section-divider.visible { opacity: 1; transform: scaleX(1); }
+  .section-divider-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+  }
+  .section-divider-diamond { color: var(--gold); font-size: 0.7rem; }
+
+  /* ── SERIES SHOWCASE ── */
+  .series-showcase {
+    padding: 0 4rem 8rem;
+    max-width: 1400px; margin: 0 auto;
+  }
+
+  .series-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .series-card {
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.4s ease, background 0.4s ease;
+  }
+  .series-card.visible { opacity: 1; transform: translateY(0); }
+  .series-card:nth-child(2) { transition-delay: 0.1s; }
+  .series-card:nth-child(3) { transition-delay: 0.2s; }
+  .series-card:hover {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.04);
+  }
+
+  .series-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 40px; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+  .series-card:hover::before { transform: scaleX(1); }
+
+  .series-icon {
+    width: 48px; height: 48px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .series-card:hover .series-icon {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+  }
+
+  .series-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 0.1em;
+    color: var(--white); margin-bottom: 0.3rem;
+  }
+  .series-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; font-style: italic;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .series-desc {
+    font-size: 0.8rem; line-height: 1.9;
+    color: var(--silver); font-weight: 300;
+    margin-bottom: 2rem;
+  }
+  .series-count {
+    font-size: 0.6rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--silver);
+  }
+  .series-count strong { color: var(--gold); }
+  .series-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--gold); text-decoration: none;
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; margin-top: 1.5rem;
+    transition: gap 0.3s;
+  }
+  .series-link:hover { gap: 0.9rem; }
+
+  /* ── ACCESSORIES BAND ── */
+  .accessories-band {
+    background: var(--charcoal-light);
+    padding: 5rem 4rem;
+    position: relative; overflow: hidden;
+  }
+
+  .accessories-band::before {
+    content: 'ACCESSORIES';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18vw; color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.04);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    white-space: nowrap; pointer-events: none;
+  }
+
+  .accessories-inner {
+    max-width: 1400px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+
+  .accessories-header {
+    text-align: center; margin-bottom: 4rem;
+  }
+
+  .accessories-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .acc-card {
+    background: var(--charcoal-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 2rem;
+    text-align: center;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s, background 0.3s;
+  }
+  .acc-card.visible { opacity: 1; transform: translateY(0); }
+  .acc-card:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.05); }
+  .acc-card:nth-child(2).visible { transition-delay: 0.08s; }
+  .acc-card:nth-child(3).visible { transition-delay: 0.16s; }
+  .acc-card:nth-child(4).visible { transition-delay: 0.24s; }
+
+  .acc-icon {
+    width: 60px; height: 60px; margin: 0 auto 1.2rem;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .acc-card:hover .acc-icon { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+
+  .acc-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: 0.1em;
+    color: var(--white); margin-bottom: 0.4rem;
+  }
+  .acc-desc {
+    font-size: 0.72rem; line-height: 1.7; color: var(--silver); font-weight: 300;
+  }
+
+  /* ── COMPARE TABLE ── */
+  .compare-section {
+    padding: 8rem 4rem;
+    max-width: 1400px; margin: 0 auto;
+  }
+
+  .compare-table {
+    width: 100%; border-collapse: collapse;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .compare-table.visible { opacity: 1; transform: translateY(0); }
+
+  .compare-table th {
+    padding: 1.5rem 1.5rem; text-align: left;
+    border-bottom: 2px solid rgba(201,168,76,0.3);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.08em;
+    color: var(--gold);
+  }
+  .compare-table th:first-child { color: var(--silver); font-size: 0.65rem; font-family: 'Montserrat', sans-serif; letter-spacing: 0.2em; text-transform: uppercase; }
+
+  .compare-table td {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.8rem; color: var(--silver);
+  }
+  .compare-table tr:hover td { background: rgba(201,168,76,0.03); }
+  .compare-table td:first-child {
+    font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    font-size: 0.65rem; color: var(--white);
+  }
+  .check { color: var(--gold); font-size: 1.1rem; }
+  .cross { color: rgba(255,255,255,0.2); }
+
+  /* ── ENQUIRY BAND ── */
+  .enquiry-band {
+    background: linear-gradient(135deg, var(--charcoal-mid) 0%, var(--charcoal) 100%);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 6rem 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .enquiry-band::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .enquiry-band-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+  .enquiry-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; font-style: italic;
+    color: var(--gold); letter-spacing: 0.4em;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.7s ease;
+  }
+  .enquiry-eyebrow.visible { opacity: 1; transform: translateY(0); }
+  .enquiry-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300;
+    color: var(--white); line-height: 1.2; margin-bottom: 1.5rem;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.7s ease 0.1s;
+  }
+  .enquiry-title.visible { opacity: 1; transform: translateY(0); }
+  .enquiry-title em { font-style: italic; color: var(--gold); }
+  .enquiry-body {
+    font-size: 0.82rem; line-height: 1.9; color: var(--silver);
+    margin-bottom: 2.5rem;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.7s ease 0.2s;
+  }
+  .enquiry-body.visible { opacity: 1; transform: translateY(0); }
+  .enquiry-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.7s ease 0.3s;
+  }
+  .enquiry-btns.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0A0A0A;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 5rem 4rem 3rem;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem; max-width: 1400px; margin: 0 auto;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    margin-bottom: 3rem;
+  }
+  .footer-brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; letter-spacing: 0.3em;
+    color: var(--gold); margin-bottom: 0.3rem;
+  }
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem; font-style: italic;
+    color: var(--silver); margin-bottom: 1.5rem;
+    letter-spacing: 0.15em;
+  }
+  .footer-desc { font-size: 0.75rem; line-height: 1.9; color: rgba(160,160,160,0.6); }
+  .footer-col-title {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+  .footer-links a {
+    color: rgba(160,160,160,0.6); text-decoration: none;
+    font-size: 0.75rem; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1400px; margin: 0 auto;
+    font-size: 0.7rem; color: rgba(160,160,160,0.4); letter-spacing: 0.1em;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── CATALOG MODAL ── */
+  .catalog-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 2rem;
+  }
+
+  .catalog-modal.active {
+    display: flex;
+  }
+
+  .catalog-shell {
+    width: min(1200px, 96vw);
+    height: min(88vh, 900px);
+    background: #111;
+    border: 1px solid rgba(201,168,76,0.18);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .catalog-topbar {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.2rem 0 1.5rem;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    background: rgba(17,17,17,0.96);
+  }
+
+  .catalog-title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .catalog-close {
+    border: 1px solid rgba(201,168,76,0.28);
+    background: transparent;
+    color: var(--gold);
+    width: 42px;
+    height: 42px;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: none;
+    transition: all 0.25s ease;
+  }
+
+  .catalog-close:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+
+  .catalog-frame-wrap {
+    width: 100%;
+    height: calc(100% - 60px);
+    background: #0d0d0d;
+  }
+
+  .catalog-frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    nav { padding: 1.5rem 2rem; }
+    .filter-section, .featured-product, .products-section, .series-showcase, .compare-section { padding-left: 2rem; padding-right: 2rem; }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-visual { min-height: 300px; }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .series-grid { grid-template-columns: 1fr 1fr; }
+    .accessories-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+  @media (max-width: 640px) {
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .series-grid { grid-template-columns: 1fr; }
+    .accessories-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .catalog-modal { padding: 0.8rem; }
+    .catalog-shell { width: 100%; height: 92vh; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="lotus-homepage.html" class="nav-logo">LOTUS</a>
+  <ul class="nav-links">
+    <li><a href="lotus-homepage.html">Home</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="lotus-heritage.html">Heritage</a></li>
+    <li><a href="support.html">Support</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-bg-word">PRODUCTS</div>
+  <div class="hero-glow"></div>
+  <div class="hero-diag"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Est. 1947 · Precision Engineered</p>
+    <h1 class="page-hero-title">OUR RANGE</h1>
+    <p class="page-hero-sub"></p>
+  </div>
+</section>
+
+<!-- TICKER BANNER -->
+<div class="revival-banner">
+  <div class="revival-ticker">
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+    <span>LOTUS</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- PRODUCTS GRID -->
+<section class="products-section" data-section="all">
+  <div class="section-head reveal">
+    <div>
+      <p class="section-eyebrow">Machines</p>
+      <h2 class="section-title-lg">Our <em>Models</em></h2>
+    </div>
+  </div>
+
+  <div class="grid-3" id="productsGrid"></div>
+</section>
+
+<!-- SECTION DIVIDER -->
+<div class="section-divider reveal" style="padding: 3rem 4rem;">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-diamond">◆</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<!-- ENQUIRY BAND -->
+<section class="enquiry-band" id="enquiry">
+  <div class="enquiry-band-inner">
+    <p class="enquiry-eyebrow reveal">Ready to Equip Your Workshop?</p>
+    <h2 class="enquiry-title reveal">
+      79 years of precision.<br>
+      <em>Now in your hands.</em>
+    </h2>
+    <p class="enquiry-body reveal">
+      Whether you're outfitting an industrial facility, upgrading your home studio, or
+      sourcing machines for your fashion atelier — our team is ready to help you find
+      the exact LOTUS machine for your needs.
+    </p>
+
+    <div id="quote-contact" style="margin-top:2rem;padding:1.5rem;border:1px solid rgba(201,168,76,0.18);background:rgba(201,168,76,0.03);max-width:520px;margin-left:auto;margin-right:auto;">
+      <p style="font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;">Request a Quote</p>
+      <p style="font-size:0.9rem;line-height:1.9;color:var(--silver);">
+        Email: <a href="mailto:enquiry@grouphca.com" style="color:var(--gold);text-decoration:none;">enquiry@grouphca.com</a><br>
+        Contact: <a href="tel:+918860086712" style="color:var(--gold);text-decoration:none;">+91 88 6008 6712</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">LOTUS</div>
+      <div class="footer-tagline">Heritage Engineered. Globes Precision.</div>
+      <p class="footer-desc">A legacy of precision sewing machine manufacturing since 1947 — now reborn for a new generation of makers, designers and manufacturers worldwide.</p>
+    </div>
+    <div>
+      <p class="footer-col-title"></p>
+      <ul class="footer-links">
+        <li><a href="support.html">Spare Parts</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Company</p>
+      <ul class="footer-links">
+        <li><a href="lotus-heritage.html">Heritage</a></li>
+        <li><a href="support.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Support</p>
+      <ul class="footer-links">
+        <li><a href="support.html">Service Centers</a></li>
+        <li><a href="support.html">B2B Enquiries</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <strong>LOTUS</strong> Sewing Machines. All rights reserved.</p>
+    <p>Est. <strong>1947</strong> · Heritage Engineered · Globes Precision</p>
+  </div>
+</footer>
+
+<!-- CATALOG MODAL -->
+<div id="catalogModal" class="catalog-modal">
+  <div class="catalog-shell">
+    <div class="catalog-topbar">
+      <div class="catalog-title">Product Catalog</div>
+      <button class="catalog-close" id="catalogCloseBtn" aria-label="Close catalog">×</button>
+    </div>
+    <div class="catalog-frame-wrap">
+      <iframe id="catalogFrame" class="catalog-frame" src=""></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Custom cursor ──
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+
+  (function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  function bindCursorHover(elements) {
+    elements.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+        ring.style.transform   = 'translate(-50%,-50%) scale(1.5)';
+        ring.style.opacity     = '1';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.transform   = 'translate(-50%,-50%) scale(1)';
+        ring.style.opacity     = '0.6';
+      });
+    });
+  }
+
+  bindCursorHover(document.querySelectorAll('a, button'));
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting)
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal, .prod-card, .series-card, .acc-card, .compare-table, .enquiry-eyebrow, .enquiry-title, .enquiry-body, .enquiry-btns, .featured-card').forEach(el => observer.observe(el));
+
+  // ── Filter tabs ──
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const allSections = document.querySelectorAll('[data-section]');
+
+  function applyFilter(filter) {
+    allSections.forEach(section => {
+      section.style.display = filter === 'all' || section.getAttribute('data-section') === filter ? '' : 'none';
+    });
+  }
+
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      filterTabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      applyFilter(this.getAttribute('data-filter'));
+    });
+  });
+
+  // ── Nav scroll ──
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.style.background     = 'rgba(10,10,10,0.97)';
+      nav.style.borderBottom   = '1px solid rgba(201,168,76,0.15)';
+      nav.style.backdropFilter = 'blur(10px)';
+    } else {
+      nav.style.background     = 'rgba(10,10,10,0.97)';
+    }
+  });
+
+  // ── Parallax on page hero BG word ──
+  const bgWord = document.querySelector('.hero-bg-word');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY * 0.3;
+    if (bgWord) bgWord.style.transform = `translateX(-50%) translateY(calc(-50% + ${y}px))`;
+  });
+  if (bgWord) bgWord.style.left = '50%';
+
+  // ── Catalog modal ──
+  function openCatalog(url) {
+    if (!url || url === '#') return;
+    const modal = document.getElementById('catalogModal');
+    const frame = document.getElementById('catalogFrame');
+    frame.src = url;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCatalog() {
+    const modal = document.getElementById('catalogModal');
+    const frame = document.getElementById('catalogFrame');
+    modal.classList.remove('active');
+    frame.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('catalogCloseBtn').addEventListener('click', closeCatalog);
+
+  document.getElementById('catalogModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCatalog();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeCatalog();
+  });
+
+  // ── Products JSON renderer ──
+  const MACHINE_SVGS = {
+    machine1: `
+      <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+        <rect x="20" y="90" width="100" height="8" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
+        <rect x="28" y="55" width="84" height="35" stroke="#C9A84C" stroke-width="0.9" opacity="0.6"/>
+        <rect x="28" y="42" width="84" height="13" stroke="#E2C47A" stroke-width="1.1" opacity="0.85"/>
+        <rect x="82" y="28" width="30" height="45" stroke="#E2C47A" stroke-width="0.9" opacity="0.7"/>
+        <rect x="28" y="28" width="16" height="50" stroke="#C9A84C" stroke-width="0.7" opacity="0.5"/>
+        <circle cx="36" cy="48" r="16" stroke="#E2C47A" stroke-width="1.2" opacity="0.8">
+          <animateTransform attributeName="transform" type="rotate" values="0 36 48;360 36 48" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="97" y1="72" x2="97" y2="95" stroke="#E2C47A" stroke-width="1.2" opacity="0.9">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,8;0,0" dur="0.9s" repeatCount="indefinite"/>
+        </line>
+        <polygon points="94,95 100,95 97,104" fill="#E2C47A" opacity="0.8">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,8;0,0" dur="0.9s" repeatCount="indefinite"/>
+        </polygon>
+      </svg>`,
+    machine2: `
+      <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+        <rect x="15" y="92" width="110" height="9" stroke="#C9A84C" stroke-width="0.7" opacity="0.35"/>
+        <rect x="25" y="52" width="90" height="40" stroke="#C9A84C" stroke-width="0.9" opacity="0.55"/>
+        <rect x="25" y="38" width="90" height="14" stroke="#E2C47A" stroke-width="1.1" opacity="0.8"/>
+        <rect x="80" y="22" width="35" height="50" stroke="#E2C47A" stroke-width="0.9" opacity="0.7"/>
+        <rect x="25" y="22" width="18" height="52" stroke="#C9A84C" stroke-width="0.7" opacity="0.5"/>
+        <circle cx="34" cy="45" r="18" stroke="#E2C47A" stroke-width="1.3" opacity="0.8">
+          <animateTransform attributeName="transform" type="rotate" values="0 34 45;360 34 45" dur="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="34" cy="45" r="6" stroke="#C9A84C" stroke-width="0.9" opacity="0.6">
+          <animateTransform attributeName="transform" type="rotate" values="0 34 45;360 34 45" dur="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="97" y1="68" x2="97" y2="94" stroke="#E2C47A" stroke-width="1.3" opacity="0.9">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,9;0,0" dur="0.8s" repeatCount="indefinite"/>
+        </line>
+      </svg>`,
+    machine3: `
+      <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+        <rect x="18" y="92" width="104" height="9" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
+        <rect x="25" y="55" width="90" height="37" rx="18" stroke="#C9A84C" stroke-width="0.9" opacity="0.55"/>
+        <rect x="25" y="42" width="90" height="13" stroke="#E2C47A" stroke-width="1" opacity="0.8"/>
+        <rect x="80" y="24" width="35" height="48" stroke="#E2C47A" stroke-width="0.9" opacity="0.7"/>
+        <circle cx="34" cy="44" r="17" stroke="#E2C47A" stroke-width="1.2" opacity="0.8">
+          <animateTransform attributeName="transform" type="rotate" values="0 34 44;360 34 44" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="97" y1="70" x2="97" y2="93" stroke="#E2C47A" stroke-width="1.2" opacity="0.9">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,8;0,0" dur="1s" repeatCount="indefinite"/>
+        </line>
+        <polygon points="94,93 100,93 97,103" fill="#E2C47A" opacity="0.8">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,8;0,0" dur="1s" repeatCount="indefinite"/>
+        </polygon>
+      </svg>`,
+    machine4: `
+      <svg width="130" height="130" viewBox="0 0 130 130" fill="none">
+        <rect x="20" y="85" width="90" height="8" stroke="#C9A84C" stroke-width="0.7" opacity="0.4"/>
+        <rect x="28" y="50" width="74" height="35" rx="4" stroke="#C9A84C" stroke-width="0.9" opacity="0.6"/>
+        <rect x="28" y="38" width="74" height="12" rx="2" stroke="#E2C47A" stroke-width="1" opacity="0.8"/>
+        <rect x="70" y="22" width="32" height="44" rx="3" stroke="#E2C47A" stroke-width="0.9" opacity="0.7"/>
+        <rect x="28" y="22" width="14" height="44" rx="2" stroke="#C9A84C" stroke-width="0.7" opacity="0.5"/>
+        <circle cx="35" cy="41" r="14" stroke="#E2C47A" stroke-width="1.1" opacity="0.8">
+          <animateTransform attributeName="transform" type="rotate" values="0 35 41;360 35 41" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="86" y1="66" x2="86" y2="86" stroke="#E2C47A" stroke-width="1.1" opacity="0.85">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,7;0,0" dur="1.1s" repeatCount="indefinite"/>
+        </line>
+        <polygon points="83,86 89,86 86,95" fill="#E2C47A" opacity="0.75">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,7;0,0" dur="1.1s" repeatCount="indefinite"/>
+        </polygon>
+      </svg>`
+  };
+
+  function escapeHtml(str = '') {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function productCardTemplate(product) {
+    const svg = MACHINE_SVGS[product.svgKey] || MACHINE_SVGS.machine1;
+    const safeBg = product.background || 'linear-gradient(135deg,#1a1a1a,#111)';
+    const safeUrl = escapeHtml(product.catalogUrl || '');
+    return `
+      <div class="prod-card reveal visible">
+        <div class="prod-card-visual">
+          <div class="prod-card-bg" style="background: ${safeBg};"></div>
+          <div class="prod-machine-svg">${svg}</div>
+          <div class="prod-card-overlay"></div>
+        </div>
+        <div class="prod-card-body">
+          <div class="prod-card-model">${product.model || ''}</div>
+          <div class="prod-card-name">${product.name || ''}</div>
+          <div class="prod-card-specs">
+            <div class="prod-spec-item">
+              <div class="prod-spec-val">${product.series || 'Model'}</div>
+              <div class="prod-spec-lbl">Series</div>
+            </div>
+            <div class="prod-spec-item">
+              <div class="prod-spec-val">${product.type || ''}</div>
+              <div class="prod-spec-lbl">Type</div>
+            </div>
+          </div>
+          <div class="prod-card-action">
+            <button class="prod-card-link" type="button" onclick="openCatalog('${safeUrl}')">View Details <span class="arrow">→</span></button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  async function loadProducts() {
+    const grid = document.getElementById('productsGrid');
+    const count = document.getElementById('productCount');
+    const models = document.getElementById('productModels');
+    if (!grid) return;
+
+    try {
+      const response = await fetch('products.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Could not load products.json');
+      const products = await response.json();
+
+      grid.innerHTML = products.map(productCardTemplate).join('');
+      if (count) count.textContent = products.length;
+      if (models) models.textContent = products.map(p => p.model).join(', ');
+
+      grid.querySelectorAll('.prod-card').forEach(el => observer.observe(el));
+      bindCursorHover(grid.querySelectorAll('a, button'));
+    } catch (error) {
+      grid.innerHTML = `
+        <div style="grid-column:1/-1;padding:2rem;border:1px solid rgba(201,168,76,0.18);background:rgba(201,168,76,0.03);color:var(--silver);font-size:0.9rem;line-height:1.8;">
+          Could not load <strong style="color:var(--gold);">products.json</strong>.<br>
+          Keep <strong style="color:var(--gold);">products.html</strong> and <strong style="color:var(--gold);">products.json</strong> in the same folder.
+        </div>`;
+      console.error(error);
+    }
+  }
+
+
+  loadProducts();
+
+
+  // ── Hide custom cursor inside iframe ──
+const iframe = document.getElementById('catalogFrame');
+
+if (iframe) {
+  iframe.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '0';
+    ring.style.opacity = '0';
+  });
+
+  iframe.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '1';
+    ring.style.opacity = '0.6';
+  });
+}
+</script>
+</body>
+</html>
