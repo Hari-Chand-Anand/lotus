@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -981,9 +982,9 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">LOTUS</a>
+  <a href="lotus-homepage.html" class="nav-logo">LOTUS</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
+    <li><a href="lotus-homepage.html">Home</a></li>
     <li><a href="products.html" class="active">Products</a></li>
     <li><a href="lotus-heritage.html">Heritage</a></li>
     <li><a href="support.html">Support</a></li>
@@ -1070,7 +1071,7 @@
   <div class="footer-top">
     <div>
       <div class="footer-brand-name">LOTUS</div>
-      <div class="footer-tagline">Heritage Engineered. Global Precision.</div>
+      <div class="footer-tagline">Heritage Engineered. Globes Precision.</div>
       <p class="footer-desc">A legacy of precision sewing machine manufacturing since 1947 — now reborn for a new generation of makers, designers and manufacturers worldwide.</p>
     </div>
     <div>
@@ -1089,14 +1090,14 @@
     <div>
       <p class="footer-col-title">Support</p>
       <ul class="footer-links">
-        <li><a href="service-repair.html">Service Centers</a></li>
-        <li><a href="dealer-support.html">B2B Enquiries</a></li>
+        <li><a href="support.html">Service Centers</a></li>
+        <li><a href="support.html">B2B Enquiries</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <p>© 2026 <strong>LOTUS</strong> Sewing Machines. All rights reserved.</p>
-    <p>Est. <strong>1947</strong> · Heritage Engineered · Global Precision</p>
+    <p>Est. <strong>1947</strong> · Heritage Engineered · Globes Precision</p>
   </div>
 </footer>
 
@@ -1105,10 +1106,13 @@
   <div class="catalog-shell">
     <div class="catalog-topbar">
       <div class="catalog-title">Product Catalog</div>
-      <button class="catalog-close" id="catalogCloseBtn" aria-label="Close catalog">×</button>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a id="catalogDirectLink" href="#" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.32);padding:10px 14px;">Open Direct</a>
+        <button class="catalog-close" id="catalogCloseBtn" aria-label="Close catalog">×</button>
+      </div>
     </div>
     <div class="catalog-frame-wrap">
-      <iframe id="catalogFrame" class="catalog-frame" src=""></iframe>
+      <iframe id="catalogFrame" class="catalog-frame" src="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
   </div>
 </div>
@@ -1199,11 +1203,43 @@
   if (bgWord) bgWord.style.left = '50%';
 
   // ── Catalog modal ──
+  function extractGoogleDriveFileId(url) {
+    if (!url) return '';
+    const patterns = [
+      /\/file\/d\/([a-zA-Z0-9_-]+)/,
+      /[?&]id=([a-zA-Z0-9_-]+)/,
+      /\/d\/([a-zA-Z0-9_-]+)/
+    ];
+    for (const pattern of patterns) {
+      const match = String(url).match(pattern);
+      if (match && match[1]) return match[1];
+    }
+    return '';
+  }
+
+  function normalizeCatalogUrl(url) {
+    const raw = String(url || '').trim();
+    if (!raw || raw === '#') return '';
+    if (/drive\.google\.com|docs\.google\.com/.test(raw)) {
+      const fileId = extractGoogleDriveFileId(raw);
+      if (fileId) {
+        return {
+          embedUrl: `https://drive.google.com/file/d/${fileId}/preview`,
+          directUrl: `https://drive.google.com/file/d/${fileId}/view`
+        };
+      }
+    }
+    return { embedUrl: raw, directUrl: raw };
+  }
+
   function openCatalog(url) {
-    if (!url || url === '#') return;
+    const urls = normalizeCatalogUrl(url);
+    if (!urls || !urls.embedUrl) return;
     const modal = document.getElementById('catalogModal');
     const frame = document.getElementById('catalogFrame');
-    frame.src = url;
+    const directLink = document.getElementById('catalogDirectLink');
+    frame.src = urls.embedUrl;
+    if (directLink) directLink.href = urls.directUrl;
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -1211,8 +1247,10 @@
   function closeCatalog() {
     const modal = document.getElementById('catalogModal');
     const frame = document.getElementById('catalogFrame');
+    const directLink = document.getElementById('catalogDirectLink');
     modal.classList.remove('active');
     frame.src = '';
+    if (directLink) directLink.href = '#';
     document.body.style.overflow = '';
   }
 
