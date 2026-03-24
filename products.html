@@ -928,7 +928,7 @@
     height: 42px;
     font-size: 1.2rem;
     line-height: 1;
-    cursor: none;
+    cursor: pointer;
     transition: all 0.25s ease;
   }
 
@@ -949,7 +949,15 @@
     border: 0;
     background: #fff;
   }
+.catalog-modal,
+.catalog-modal * {
+  cursor: auto !important;
+}
 
+.catalog-close,
+#catalogDirectLink {
+  cursor: pointer !important;
+}
 .prod-machine-image {
   position: relative;
   z-index: 2;
@@ -996,9 +1004,9 @@
 
 <!-- NAV -->
 <nav>
-  <a href="lotus-homepage.html" class="nav-logo">LOTUS</a>
+  <a href="index.html" class="nav-logo">LOTUS</a>
   <ul class="nav-links">
-    <li><a href="lotus-homepage.html">Home</a></li>
+    <li><a href="index.html">Home</a></li>
     <li><a href="products.html" class="active">Products</a></li>
     <li><a href="lotus-heritage.html">Heritage</a></li>
     <li><a href="support.html">Support</a></li>
@@ -1246,27 +1254,39 @@
     return { embedUrl: raw, directUrl: raw };
   }
 
-  function openCatalog(url) {
-    const urls = normalizeCatalogUrl(url);
-    if (!urls || !urls.embedUrl) return;
-    const modal = document.getElementById('catalogModal');
-    const frame = document.getElementById('catalogFrame');
-    const directLink = document.getElementById('catalogDirectLink');
-    frame.src = urls.embedUrl;
-    if (directLink) directLink.href = urls.directUrl;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
+  
 
-  function closeCatalog() {
-    const modal = document.getElementById('catalogModal');
-    const frame = document.getElementById('catalogFrame');
-    const directLink = document.getElementById('catalogDirectLink');
-    modal.classList.remove('active');
-    frame.src = '';
-    if (directLink) directLink.href = '#';
-    document.body.style.overflow = '';
-  }
+  function openCatalog(url) {
+  const urls = normalizeCatalogUrl(url);
+  if (!urls || !urls.embedUrl) return;
+
+  const modal = document.getElementById('catalogModal');
+  const frame = document.getElementById('catalogFrame');
+  const directLink = document.getElementById('catalogDirectLink');
+
+  frame.src = urls.embedUrl;
+  if (directLink) directLink.href = urls.directUrl;
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  if (cursor) cursor.style.display = 'none';
+  if (ring) ring.style.display = 'none';
+}
+
+function closeCatalog() {
+  const modal = document.getElementById('catalogModal');
+  const frame = document.getElementById('catalogFrame');
+  const directLink = document.getElementById('catalogDirectLink');
+
+  modal.classList.remove('active');
+  frame.src = '';
+  if (directLink) directLink.href = '#';
+  document.body.style.overflow = '';
+
+  if (cursor) cursor.style.display = '';
+  if (ring) ring.style.display = '';
+}
 
   document.getElementById('catalogCloseBtn').addEventListener('click', closeCatalog);
 
