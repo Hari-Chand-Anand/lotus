@@ -950,6 +950,20 @@
     background: #fff;
   }
 
+.prod-machine-image {
+  position: relative;
+  z-index: 2;
+  max-width: 85%;
+  max-height: 85%;
+  object-fit: contain;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+
+.prod-card:hover .prod-machine-image {
+  transform: scale(1.08) translateY(-8px);
+}
+
+
   /* ── RESPONSIVE ── */
   @media (max-width: 1024px) {
     nav { padding: 1.5rem 2rem; }
@@ -1077,7 +1091,7 @@
     <div>
       <p class="footer-col-title"></p>
       <ul class="footer-links">
-        <li><a href="support.html">Spare Parts</a></li>
+        <li><a href="support.html"></a></li>
       </ul>
     </div>
     <div>
@@ -1352,22 +1366,17 @@
       <div class="prod-card reveal visible">
         <div class="prod-card-visual">
           <div class="prod-card-bg" style="background: ${safeBg};"></div>
-          <div class="prod-machine-svg">${svg}</div>
+          <img
+  src="${product.image || ''}"
+  alt="${product.model || ''}"
+  class="prod-machine-image"
+/>
           <div class="prod-card-overlay"></div>
         </div>
         <div class="prod-card-body">
           <div class="prod-card-model">${product.model || ''}</div>
           <div class="prod-card-name">${product.name || ''}</div>
-          <div class="prod-card-specs">
-            <div class="prod-spec-item">
-              <div class="prod-spec-val">${product.series || 'Model'}</div>
-              <div class="prod-spec-lbl">Series</div>
-            </div>
-            <div class="prod-spec-item">
-              <div class="prod-spec-val">${product.type || ''}</div>
-              <div class="prod-spec-lbl">Type</div>
-            </div>
-          </div>
+
           <div class="prod-card-action">
             <button class="prod-card-link" type="button" onclick="openCatalog('${safeUrl}')">View Details <span class="arrow">→</span></button>
           </div>
