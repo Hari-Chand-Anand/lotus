@@ -3,6 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Hari Chand Anand & Co.">
+<meta name="description" content="Lotus by Hari Chand Anand & Co. - Premium industrial sewing machine solutions for garment manufacturers.">
+<meta name="keywords" content="Lotus sewing machine, HCA, garment machines, industrial sewing machines, textile machinery India">
+
+<!-- Open Graph (WhatsApp / LinkedIn Preview) -->
+<meta property="og:title" content="Lotus by HCA">
+<meta property="og:description" content="Premium industrial sewing machine solutions by Hari Chand Anand & Co.">
+<meta property="og:image" content="https://www.grouphca.com/cdn/shop/files/logo_1_280x.png?v=1722238275">
+<meta property="og:url" content="https://hari-chand-anand.github.io/lotus/">
+<meta property="og:type" content="website">
+
+<!-- Twitter Preview -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lotus by HCA">
+<meta name="twitter:description" content="Industrial sewing machine solutions">
+<meta name="twitter:image" content="https://www.grouphca.com/cdn/shop/files/logo_1_280x.png?v=1722238275">
 <title>LOTUS — Heritage Engineered. Global Precision.</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -473,8 +489,10 @@
 
   .section-header {
     display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 2rem;
     margin-bottom: 4rem;
     max-width: 1400px; margin: 0 auto 4rem;
+    position: relative; z-index: 1;
   }
 
   .section-label {
@@ -509,51 +527,74 @@
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1.35fr 1fr;
     gap: 2px;
     max-width: 1400px;
     margin: 0 auto;
     position: relative; z-index: 1;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.12);
+  }
+
+  .product-card-stack {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    background: rgba(201,168,76,0.12);
   }
 
   .product-card {
-    background: var(--charcoal);
+    background:
+      radial-gradient(circle at 50% 22%, rgba(201,168,76,0.09), transparent 42%),
+      linear-gradient(180deg, #181818 0%, #090909 100%);
     position: relative;
     overflow: hidden;
     cursor: none;
-    group: true;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2.5rem;
+    text-decoration: none;
+    transition: transform 0.35s ease, background 0.35s ease;
   }
-  .product-card:first-child {
-    grid-row: span 2;
+  .product-card:hover {
+    transform: translateY(-4px);
+    background:
+      radial-gradient(circle at 50% 20%, rgba(201,168,76,0.14), transparent 44%),
+      linear-gradient(180deg, #1b1b1b 0%, #0a0a0a 100%);
+  }
+
+  .product-card.featured {
+    min-height: 724px;
   }
 
   .product-image {
-    width: 100%;
-    aspect-ratio: 1;
-    background: linear-gradient(135deg, var(--charcoal-light) 0%, #2a2a2a 50%, var(--charcoal) 100%);
+    flex: 1;
     display: flex; align-items: center; justify-content: center;
     position: relative;
     overflow: hidden;
-    transition: transform 0.6s ease;
-  }
-  .product-card:first-child .product-image { aspect-ratio: unset; height: 100%; min-height: 400px; }
-  .product-card:hover .product-image { transform: scale(1.04); }
-
-  .product-image-inner {
-    width: 60%;
-    opacity: 0.3;
-    display: flex; align-items: center; justify-content: center;
+    padding: 1rem 0 2rem;
   }
 
-  .product-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
-    transition: opacity 0.3s;
+  .product-image img {
+    max-width: 84%;
+    max-height: 320px;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
+    transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+  }
+  .product-card.featured .product-image img {
+    max-width: 88%;
+    max-height: 430px;
+  }
+  .product-card:hover .product-image img {
+    transform: scale(1.05) translateY(-6px);
   }
 
   .product-info {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 2rem;
+    border-top: 1px solid rgba(201,168,76,0.14);
+    padding-top: 1.3rem;
   }
 
   .product-category {
@@ -561,28 +602,25 @@
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.55rem;
   }
 
   .product-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.08em;
     color: var(--white);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
+    line-height: 1;
   }
 
   .product-desc {
-    font-size: 0.75rem;
-    color: var(--silver);
-    line-height: 1.6;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-  }
-  .product-card:hover .product-desc {
-    opacity: 1;
-    transform: translateY(0);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    line-height: 1.4;
   }
 
   .product-badge {
@@ -594,6 +632,49 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     padding: 0.3rem 0.8rem;
+  }
+
+  @media (max-width: 1024px) {
+    .products {
+      padding: 6rem 2rem;
+    }
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+    .product-card-stack {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: none;
+    }
+    .product-card.featured,
+    .product-card {
+      min-height: 360px;
+    }
+    .product-card.featured .product-image img,
+    .product-image img {
+      max-height: 240px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .product-card-stack {
+      grid-template-columns: 1fr;
+    }
+    .product-card {
+      padding: 1.5rem;
+      min-height: 320px;
+    }
+    .product-image img,
+    .product-card.featured .product-image img {
+      max-width: 88%;
+      max-height: 200px;
+    }
+    .product-name {
+      font-size: 1.65rem;
+    }
   }
 
   /* ─── SECTION: HERITAGE STRIP ─── */
@@ -971,77 +1052,40 @@
   </div>
 
   <div class="products-grid reveal">
-    <!-- Featured -->
-    <div class="product-card">
+    <a href="products.html#430gtex" class="product-card featured">
       <div class="product-image">
-        <div class="product-image-inner">
-          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="0.8">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <div class="product-overlay"></div>
-        <div class="product-badge">Featured</div>
-        <div class="product-info">
-          <p class="product-category">Industrial Series</p>
-          <h3 class="product-name">LOTUS 430</h3>
-          <p class="product-desc">High-speed industrial lockstitch for garment factories. 5,500 SPM. Auto-lubrication.</p>
-        </div>
+        <img src="assets/430gtex.png" alt="LU-430GT">
       </div>
-    </div>
+      <div class="product-badge">Featured</div>
+      <div class="product-info">
+        <p class="product-category">Signature Machine</p>
+        <h3 class="product-name">LU-430GT</h3>
+        <p class="product-desc">Direct Drive Lockstitch</p>
+      </div>
+    </a>
 
-    <!-- Card 2 -->
-    <div class="product-card">
-      <div class="product-image">
-        <div class="product-image-inner">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="0.8">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 8v4l3 3"/>
-          </svg>
+    <div class="product-card-stack">
+      <a href="products.html#1790ex" class="product-card">
+        <div class="product-image">
+          <img src="assets/1790ex.png" alt="LU-1790">
         </div>
-        <div class="product-overlay"></div>
         <div class="product-info">
-          <p class="product-category">Home Series</p>
-          <h3 class="product-name">LOTUS </h3>
-          <p class="product-desc">The perfect companion for home sewers and hobbyists.</p>
+          <p class="product-category">Electronic Series</p>
+          <h3 class="product-name">LU-1790</h3>
+          <p class="product-desc">Electronic Bar Tack</p>
         </div>
-      </div>
-    </div>
+      </a>
 
-    <!-- Card 3 -->
-    <div class="product-card">
-      <div class="product-image">
-        <div class="product-image-inner">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="0.8">
-            <path d="M21 16V8a2 2 0 00-1-1.73L13 2.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l6 3.46a2 2 0 002 0l6-3.46A2 2 0 0021 16z"/>
-          </svg>
+      <a href="products.html#630ex" class="product-card">
+        <div class="product-image">
+          <img src="assets/630ex.png" alt="DY-630GT">
         </div>
-        <div class="product-overlay"></div>
         <div class="product-info">
-          <p class="product-category">Fashion Series</p>
-          <h3 class="product-name">LOTUS </h3>
-          <p class="product-desc">Precision stitching for haute couture and fashion design studios.</p>
+          <p class="product-category">Pattern Sewing</p>
+          <h3 class="product-name">DY-630GT</h3>
+          <p class="product-desc">Pattern Sewing Machine</p>
         </div>
-      </div>
-    </div>
-
-    <!-- Card 4 -->
-    <div class="product-card">
-      <div class="product-image">
-        <div class="product-image-inner">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="0.8">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-        </div>
-        <div class="product-overlay"></div>
-        <div class="product-info">
-          <p class="product-category">Accessories</p>
-          <h3 class="product-name">Spare Parts & Accessories</h3>
-          <p class="product-desc">Genuine LOTUS parts for every model.</p>
-        </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
