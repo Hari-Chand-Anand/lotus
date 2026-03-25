@@ -1256,11 +1256,51 @@
   pointer-events: none;
   z-index: 2;
 }
+.container-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
 
+@media (max-width: 768px) {
+  .container-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.section {
+  padding: 6rem 4rem;
+}
 
+@media (max-width: 768px) {
+  .section {
+    padding: 3rem 1.25rem;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.machine-image {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+.hero-title {
+  font-size: clamp(2rem, 7vw, 5rem);
+  line-height: 1;
+}
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
 
-
-
+  nav {
+    padding: 1rem 1.25rem;
+  }
+}
 /* ── 1999 HERITAGE GALLERY ── */
 .timeline-visual--1999 {
   padding: 0;
