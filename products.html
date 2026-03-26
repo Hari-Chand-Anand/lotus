@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +28,7 @@
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
-    cursor: none;
+    cursor: default;
   }
 
   /* ── CURSOR ── */
@@ -256,7 +257,7 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 0.65rem; font-weight: 600;
     letter-spacing: 0.25em; text-transform: uppercase;
-    cursor: none; transition: all 0.3s ease;
+    cursor: default; transition: all 0.3s ease;
     position: relative; overflow: hidden;
   }
   .filter-tab:last-child { border-right: none; }
@@ -279,6 +280,32 @@
     color: var(--silver); letter-spacing: 0.1em;
   }
   .product-count strong { color: var(--gold); font-style: normal; }
+  .section-subcopy{
+    margin-top:0.9rem;
+    max-width:760px;
+    color:var(--silver);
+    font-size:0.88rem;
+    line-height:1.9;
+    font-weight:300;
+  }
+  .prod-card-copy{
+    color:var(--silver);
+    font-size:0.78rem;
+    line-height:1.7;
+    margin-top:0.75rem;
+    min-height:3.1rem;
+  }
+  .prod-card-actions{
+    display:flex;
+    gap:0.75rem;
+    flex-wrap:wrap;
+    margin-top:1rem;
+  }
+  .prod-card-link.secondary{
+    color:var(--silver);
+    border-color:rgba(255,255,255,0.1);
+  }
+
 
   /* ── FEATURED PRODUCT (Hero Card) ── */
   .featured-product {
@@ -465,7 +492,7 @@
     position: relative; overflow: hidden;
     opacity: 0; transform: translateY(30px);
     transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
-    cursor: none;
+    cursor: default;
   }
   .prod-card.visible { opacity: 1; transform: translateY(0); }
   .prod-card:nth-child(2).visible { transition-delay: 0.1s; }
@@ -572,7 +599,7 @@
     border: none;
     padding: 0;
     font-family: inherit;
-    cursor: none;
+    cursor: default;
   }
   .prod-card-link:hover { gap: 0.9rem; }
   .prod-card-link .arrow {
@@ -1051,6 +1078,7 @@
     <div>
       <p class="section-eyebrow">Machines</p>
       <h2 class="section-title-lg">Our <em>Models</em></h2>
+      <p class="section-subcopy">Explore LOTUS industrial sewing machines with dedicated product pages, brochures, specifications, and application-focused information for garment manufacturing.</p>
     </div>
   </div>
 
@@ -1382,23 +1410,27 @@ function closeCatalog() {
     const svg = MACHINE_SVGS[product.svgKey] || MACHINE_SVGS.machine1;
     const safeBg = product.background || 'linear-gradient(135deg,#1a1a1a,#111)';
     const safeUrl = escapeHtml(product.catalogUrl || '');
+    const safePage = escapeHtml(product.productPage || '#');
+    const safeCategory = escapeHtml(product.category || '');
+    const safeDesc = escapeHtml(product.shortDescription || '');
     return `
       <div class="prod-card reveal visible">
         <div class="prod-card-visual">
           <div class="prod-card-bg" style="background: ${safeBg};"></div>
           <img
   src="${product.image || ''}"
-  alt="${product.model || ''}"
+  alt="${(product.displayModel || product.model || '') + ' ' + (product.name || '')}"
   class="prod-machine-image"
 />
           <div class="prod-card-overlay"></div>
         </div>
         <div class="prod-card-body">
-          <div class="prod-card-model">${product.model || ''}</div>
+          <div class="prod-card-model">${product.displayModel || product.model || ''}</div>
           <div class="prod-card-name">${product.name || ''}</div>
-
-          <div class="prod-card-action">
-            <button class="prod-card-link" type="button" onclick="openCatalog('${safeUrl}')">View Details <span class="arrow">→</span></button>
+          ${safeCategory ? `<div class="prod-card-copy"><strong style="color:var(--gold);font-weight:500;">${safeCategory}</strong><br>${safeDesc}</div>` : ''}
+          <div class="prod-card-actions">
+            <a class="prod-card-link" href="${safePage}">Product Page <span class="arrow">→</span></a>
+            <button class="prod-card-link secondary" type="button" onclick="openCatalog('${safeUrl}')">Open Catalog <span class="arrow">↗</span></button>
           </div>
         </div>
       </div>`;
@@ -1445,8 +1477,8 @@ if (iframe) {
   });
 
   iframe.addEventListener('mouseleave', () => {
-    cursor.style.opacity = '1';
-    ring.style.opacity = '0.6';
+    cursor.style.opacity = '0';
+    ring.style.opacity = '0';
   });
 }
 </script>

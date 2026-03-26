@@ -5,7 +5,12 @@
     "catalogUrl": "https://drive.google.com/file/d/1IEZ-GO12JjpQrHxwVazsDrl_dblZ6Mi6/view?usp=sharing",
     "background": "radial-gradient(ellipse at 40% 60%, rgba(201,168,76,0.1) 0%, transparent 60%), linear-gradient(135deg,#1e1e1e,#111)",
     "svgKey": "machine1",
-    "image": "assets/630gt.png"
+    "image": "assets/630gt.png",
+    "displayModel": "LU 630GT",
+    "slug": "lu-630gt",
+    "category": "Electronic Bar Tacking Sewing Machine",
+    "shortDescription": "Industrial electronic bartack machine for reinforcement stitching, belt loops, and stress-point sewing.",
+    "productPage": "lu-630gt.html"
   },
   {
     "model": "LU-430GT",
@@ -13,7 +18,12 @@
     "catalogUrl": "https://drive.google.com/file/d/15VbPbMIP4yPJDiUibXDcmjftHAFD4M4I/view?usp=sharing",
     "background": "radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.08) 0%, transparent 60%), linear-gradient(135deg,#1a1a1a,#111)",
     "svgKey": "machine2",
-    "image": "assets/430gt.png"
+    "image": "assets/430gt.png",
+    "displayModel": "LU 430GT",
+    "slug": "lu-430gt",
+    "category": "Direct Drive Lockstitch Electronic Bar Tack Machine",
+    "shortDescription": "Direct-drive bartack machine built for precise, stable reinforcement stitching in garment production.",
+    "productPage": "lu-430gt.html"
   },
   {
     "model": "LU-1790",
@@ -21,6 +31,11 @@
     "catalogUrl": "https://drive.google.com/file/d/1fW8ePbNWncb-VOhr50NDYH5hdXXHsAs1/view?usp=drive_link",
     "background": "radial-gradient(ellipse at 50% 50%, rgba(139,105,20,0.12) 0%, transparent 60%), linear-gradient(135deg,#1c1c1c,#0f0f0f)",
     "svgKey": "machine3",
-    "image": "assets/lu1790-web.jpeg"
+    "image": "assets/lu1790-web.jpeg",
+    "displayModel": "LU 1790",
+    "slug": "lu-1790",
+    "category": "Direct Drive Electronic Button Hole Machine",
+    "shortDescription": "High-speed industrial buttonhole machine for shirts, uniforms, denim, and formal wear.",
+    "productPage": "lu-1790.html"
   }
 ]
