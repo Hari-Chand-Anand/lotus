@@ -132,6 +132,43 @@
   .footer-links a { color: var(--silver); text-decoration: none; font-size: 0.75rem; font-weight: 300; opacity: 0.6; transition: opacity 0.3s, color 0.3s; letter-spacing: 0.05em; }
   .footer-links a:hover { opacity: 1; color: var(--gold); }
   .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: var(--silver); opacity: 0.4; letter-spacing: 0.1em; }
+
+  .dealer-hero{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:60px;
+}
+
+.dealer-left{
+  flex:1;
+}
+
+.dealer-right{
+  flex:1;
+  display:flex;
+  justify-content:flex-end;
+}
+
+.dealer-right img{
+  width:100%;
+  max-width:650px;
+  border-radius:12px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+}
+
+/* mobile */
+@media (max-width:900px){
+  .dealer-hero{
+    flex-direction:column;
+    text-align:left;
+  }
+
+  .dealer-right{
+    justify-content:center;
+    margin-top:40px;
+  }
+}
 </style>
 </head>
 <body>
@@ -155,12 +192,22 @@
 </a>
 
 <!-- PAGE HEADER -->
-<div class="page-header">
+<div class="page-header dealer-hero">
   <div class="page-header-glow"></div>
-  <p class="page-eyebrow">Support · Dealer Programme</p>
-  <h1 class="page-title">Dealer<br>Support</h1>
-  <div class="page-divider"></div>
-  <p class="page-desc">Join a network of authorised LOTUS dealers trusted by garment manufacturers and tailoring studios across the globe. Built on seven decades of precision engineering.</p>
+
+  <div class="dealer-left">
+    <p class="page-eyebrow">Support · Dealer Programme</p>
+    <h1 class="page-title">Dealer<br>Support</h1>
+    <div class="page-divider"></div>
+    <p class="page-desc">
+      Join a network of authorised LOTUS dealers trusted by garment manufacturers
+      and tailoring studios across the globe. Built on seven decades of precision engineering.
+    </p>
+  </div>
+
+  <div class="dealer-right">
+    <img src="assets/dealer.png" alt="">
+  </div>
 </div>
 
 <!-- TICKER -->
