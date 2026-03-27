@@ -72,11 +72,6 @@
   .nav-links a:hover, .nav-links a.active { color: var(--gold); }
   .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
-
-  .back-btn { position: fixed; top: 6.5rem; left: 4rem; z-index: 101; display: inline-flex; align-items: center; gap: 0.8rem; padding: 0.85rem 1.2rem; border: 1px solid rgba(201,168,76,0.22); background: rgba(10,10,10,0.72); backdrop-filter: blur(10px); color: var(--gold); text-decoration: none; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; transition: border-color 0.3s, background 0.3s, transform 0.3s; }
-  .back-btn:hover { border-color: rgba(201,168,76,0.5); background: rgba(18,18,18,0.95); transform: translateY(-2px); }
-  .back-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; }
-
   .page-hero {
     min-height: 72vh; display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden; padding: 9rem 4rem 4rem;
@@ -308,8 +303,6 @@
     .hero-visual { min-height: 420px; }
   }
   @media (max-width: 700px) {
-
-    .back-btn { top: 5.8rem; left: 1rem; padding: 0.75rem 1rem; font-size: 0.56rem; letter-spacing: 0.22em; }
     .cursor, .cursor-ring { display: none; }
     nav { padding: 1rem; }
     .nav-links { display: none; }
@@ -333,12 +326,6 @@
     <li><a href="support.html">Support</a></li>
   </ul>
 </nav>
-
-
-<a href="products.html" class="back-btn">
-  <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-  <span>Back to Products</span>
-</a>
 
 <section class="page-hero">
   <div class="hero-bg-word">LU 438GT</div>
@@ -373,13 +360,12 @@
 
       <div class="hero-actions">
         <a href="#quote" class="btn-primary-gold">Request Quote</a>
-        <a href="catalogs/lu-438gt.pdf" class="btn-outline-gold" target="_blank" rel="noopener">Download Catalog</a>
-        <a href="products.html" class="btn-outline-gold">Back to Products</a>
+        
       </div>
     </div>
 
     <div class="hero-visual">
-      <div class="machine-badge">Industrial Model</div>
+      <div class="machine-badge"></div>
       <img src="assets/430gtex.png" alt="LOTUS LU 438GT electronic bar tacking sewing machine" class="machine-image">
       <div class="visual-note">Use the clean machine visual here. Keep brochures as a download only for stronger AI and search clarity.</div>
     </div>
